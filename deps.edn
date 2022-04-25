@@ -1,0 +1,4 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        metosin/reitit-core {:mvn/version "0.5.18"}
+        metosin/reitit-ring {:mvn/version "0.5.18"}}}
