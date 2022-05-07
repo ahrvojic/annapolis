@@ -18,7 +18,7 @@
   (.stop server))
 
 (defn start []
-  (log/info "Initializing server...")
+  (log/info "Initializing...")
   (ig/init config))
 
 (defn -main [& _args]
