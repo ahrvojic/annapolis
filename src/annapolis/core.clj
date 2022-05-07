@@ -1,5 +1,5 @@
 (ns annapolis.core
-  (:require [annapolis.server :as server]
+  (:require [annapolis.handler :as handler]
             [clojure.tools.logging :as log]
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]))
@@ -7,7 +7,7 @@
 (def config
   {:adapter/jetty {:port 8080
                    :join? false
-                   :handler server/handler}})
+                   :handler handler/app}})
 
 (defmethod ig/init-key :adapter/jetty [_ {:keys [port join? handler]}]
   (log/info "Starting server on port " port "...")

@@ -4,4 +4,7 @@
         integrant/integrant {:mvn/version "0.8.0"}
         metosin/reitit-core {:mvn/version "0.5.18"}
         metosin/reitit-ring {:mvn/version "0.5.18"}
-        ring/ring-jetty-adapter {:mvn/version "1.9.5"}}}
+        ring/ring-jetty-adapter {:mvn/version "1.9.5"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.65.1029"}}
+                  :main-opts ["-m" "kaocha.runner"]}}}

@@ -1,8 +1,8 @@
-(ns annapolis.server
+(ns annapolis.handler
   (:require [annapolis.service :as service]
             [reitit.ring :as ring]))
 
-(def handler
+(def app
   (ring/ring-handler
     (ring/router
       ["/api"
