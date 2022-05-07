@@ -1,15 +1,10 @@
 (ns annapolis.server
-  (:require [reitit.ring :as ring]
-            [ring.adapter.jetty :as jetty]))
+  (:require [annapolis.service :as service]
+            [reitit.ring :as ring]))
 
-(def app
+(def handler
   (ring/ring-handler
     (ring/router
       ["/api"
-       ["/ping" {:get (fn [_] {:status 200
-                               :body "ok"})}]])
+       ["/ping" {:get service/ping}]])
     (ring/create-default-handler)))
-
-(defn start []
-  (jetty/run-jetty #'app {:port 3000, :join? false})
-  (println "Server running on port 3000"))
