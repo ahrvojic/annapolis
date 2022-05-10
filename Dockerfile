@@ -1,4 +1,4 @@
-FROM amazoncorretto:17.0.3
+FROM amazoncorretto:17-alpine
 
 ADD target/annapolis-*.jar /app/annapolis.jar
 
