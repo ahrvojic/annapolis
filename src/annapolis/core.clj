@@ -2,7 +2,8 @@
   (:require [annapolis.handler :as handler]
             [clojure.tools.logging :as log]
             [integrant.core :as ig]
-            [ring.adapter.jetty :as jetty]))
+            [ring.adapter.jetty :as jetty])
+  (:gen-class))
 
 (def config
   {:adapter/jetty {:port 8080
