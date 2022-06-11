@@ -13,5 +13,5 @@
                    :ns-default build
                    :extra-paths ["build"]}
            :test {:extra-paths ["test"]
-                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.65.1029"}}
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.66.1034"}}
                   :main-opts ["-m" "kaocha.runner"]}}}
