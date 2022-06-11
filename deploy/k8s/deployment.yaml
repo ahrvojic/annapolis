@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: annapolis-deployment
+  labels:
+    app: annapolis
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: annapolis
+  template:
+    metadata:
+      labels:
+        app: annapolis
+    spec:
+      containers:
+        - name: annapolis
+          image: annapolis:1.0.0
+          ports:
+            - containerPort: 8080
