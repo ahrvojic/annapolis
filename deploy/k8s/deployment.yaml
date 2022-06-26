@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: annapolis
-          image: annapolis:1.0.0
+          image: myregistry:5000/annapolis:1.0.0
           ports:
             - containerPort: 8080
