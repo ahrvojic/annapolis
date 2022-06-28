@@ -4,6 +4,10 @@ metadata:
   name: mycluster
 servers: 1
 agents: 3
+ports:
+  - port: 8080:80
+    nodeFilters:
+      - loadbalancer
 registries:
   create:
     name: myregistry
