@@ -1,26 +1,28 @@
 (ns annapolis.core
-  (:require [annapolis.handler :as handler]
-            [clojure.tools.logging :as log]
-            [integrant.core :as ig]
-            [ring.adapter.jetty :as jetty])
-  (:gen-class))
+  (:require [com.brunobonacci.mulog :as u]
+            [org.httpkit.server :as http]
+            [reitit.ring :as ring]))
 
-(def config
-  {:adapter/jetty {:port 8080
-                   :join? false
-                   :handler handler/app}})
+(defn ping-handler [_req]
+  {:status 200 :body "OK"})
 
-(defmethod ig/init-key :adapter/jetty [_ {:keys [port join? handler]}]
-  (log/info "Starting server on port " port "...")
-  (jetty/run-jetty handler {:port port :join? join?}))
+(def app
+  (ring/ring-handler
+    (ring/router
+      ["/api"
+       ["/ping" {:get ping-handler}]])))
 
-(defmethod ig/halt-key! :adapter/jetty [_ server]
-  (log/info "Stopping server...")
-  (.stop server))
+(defonce server (atom nil))
+(defonce logger (atom nil))
 
-(defn start []
-  (log/info "Initializing...")
-  (ig/init config))
+(defn stop-server []
+  (when @logger (@logger))
+  (when @server
+    (@server :timeout 100)
+    (reset! server nil)))
 
 (defn -main [& _args]
-  (start))
+  (reset! logger (u/start-publisher! {:type :console}))
+  (u/log ::server-starting)
+  (reset! server (http/run-server #'app {:port 8080}))
+  (u/log ::server-started))
