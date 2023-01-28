@@ -15,16 +15,21 @@
 (defonce server (atom nil))
 (defonce logger (atom nil))
 
-(defn stop-server []
-  (when @logger
-    (@logger)
-    (reset! logger nil))
-  (when @server
-    (@server :timeout 100)
-    (reset! server nil)))
-
-(defn -main [& _args]
+(defn start-server [handler config]
   (reset! logger (u/start-publisher! {:type :console}))
   (u/log ::server-starting)
-  (reset! server (http/run-server #'app {:port 8080}))
+  (reset! server (http/run-server handler config))
   (u/log ::server-started))
+
+(defn stop-server []
+  (u/log ::server-stopping)
+  (when @server
+    (@server :timeout 100)
+    (reset! server nil))
+  (u/log ::server-stopped)
+  (when @logger
+    (@logger)
+    (reset! logger nil)))
+
+(defn -main [& _args]
+  (start-server app {:port 8080}))
