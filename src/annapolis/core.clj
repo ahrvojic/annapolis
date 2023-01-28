@@ -16,7 +16,9 @@
 (defonce logger (atom nil))
 
 (defn stop-server []
-  (when @logger (@logger))
+  (when @logger
+    (@logger)
+    (reset! logger nil))
   (when @server
     (@server :timeout 100)
     (reset! server nil)))
