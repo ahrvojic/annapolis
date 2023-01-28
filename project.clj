@@ -3,4 +3,7 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [com.brunobonacci/mulog "0.9.0"]
                  [http-kit "2.6.0"]
-                 [metosin/reitit-ring "0.5.18"]])
+                 [metosin/reitit-ring "0.5.18"]
+                 [mount/mount "0.1.17"]]
+  :main annapolis.core
+  :profiles {:uberjar {:aot [annapolis.core]}})
