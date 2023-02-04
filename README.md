@@ -27,6 +27,7 @@ $ helm install traefik traefik/traefik
 $ cd annapolis
 $ kubectl apply -f deploy/k8s/app.yaml
 $ kubectl apply -f deploy/k8s/ingress.yaml
-```
 
-Open a browser and navigate to http://localhost/api/ping. You should see an `OK`.
+$ curl http://localhost/api/ping
+OK
+```
