@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: annapolis-config
+data:
+  zk.host: zookeeper.default.svc.cluster.local
+  zk.port: "2181"
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +27,17 @@ spec:
           image: annapolis:0.1.0
           ports:
             - containerPort: 8080
+          env:
+            - name: ZK_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: annapolis-config
+                  key: zk.host
+            - name: ZK_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: annapolis-config
+                  key: zk.port
 ---
 apiVersion: v1
 kind: Service
