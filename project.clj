@@ -4,6 +4,9 @@
                  [com.brunobonacci/mulog "0.9.0"]
                  [http-kit "2.6.0"]
                  [metosin/reitit-ring "0.5.18"]
-                 [mount/mount "0.1.17"]]
+                 [mount/mount "0.1.17"]
+                 [nonseldiha/slf4j-mulog "0.2.1"]
+                 [org.apache.curator/curator-recipes "5.3.0"]]
+  :exclusions [log4j]
   :main annapolis.core
   :profiles {:uberjar {:aot [annapolis.core]}})
