@@ -1,5 +1,6 @@
 (ns annapolis.core
-  (:require [com.brunobonacci.mulog :as u]
+  (:require [annapolis.zk :as zk]
+            [com.brunobonacci.mulog :as u]
             [mount.core :as mount :refer [defstate]]
             [org.httpkit.server :as http]
             [reitit.ring :as ring])
@@ -15,16 +16,25 @@
        ["/ping" {:get ping-handler}]])))
 
 (defstate logger
-  :start (u/start-publisher! {:type :console})
-  :stop logger)
+  :start (u/start-publisher! {:type :console-json})
+  :stop (logger))
 
-(defstate server
+(defstate framework
   :start (do
-           (u/log ::server-starting)
-           (http/run-server app {:port 8080}))
+           (u/log ::framework-starting)
+           (zk/start (zk/framework)))
   :stop (do
-          (u/log ::server-stopping)
-          server))
+          (u/log ::framework-stopping)
+          (zk/stop framework)))
+
+(defstate api
+  :start (do
+           (u/log ::api-starting)
+           (http/run-server app {:port 8080
+                                 :legacy-return-value? false}))
+  :stop (do
+          (u/log ::api-stopping)
+          (http/server-stop! api)))
 
 (defn -main [& _args]
   (mount/start))

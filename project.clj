@@ -2,6 +2,7 @@
   :description "Kubernetes distributed application lab"
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [com.brunobonacci/mulog "0.9.0"]
+                 [com.brunobonacci/mulog-adv-console "0.9.0"]
                  [http-kit "2.6.0"]
                  [metosin/reitit-ring "0.5.18"]
                  [mount/mount "0.1.17"]
