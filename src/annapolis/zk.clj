@@ -14,7 +14,7 @@
         (.retryPolicy (ExponentialBackoffRetry. retries-sleep-ms retries-max))
         (.build))))
 
-(defn start
+(defn ^CuratorFramework start
   [^CuratorFramework framework]
   (.start framework)
   framework)

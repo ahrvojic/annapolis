@@ -1,10 +1,12 @@
 (ns annapolis.core
-  (:require [annapolis.zk :as zk]
+  (:require [annapolis.leader :as leader]
+            [annapolis.zk :as zk]
             [com.brunobonacci.mulog :as u]
             [mount.core :as mount :refer [defstate]]
             [org.httpkit.server :as http]
             [reitit.ring :as ring])
-  (:gen-class))
+  (:gen-class)
+  (:import (java.util.concurrent TimeUnit)))
 
 (defn ping-handler [_req]
   {:status 200 :body "OK"})
@@ -27,6 +29,14 @@
           (u/log ::framework-stopping)
           (zk/stop framework)))
 
+(defstate leader
+  :start (do
+           (u/log ::leader-election-starting)
+           (leader/start framework))
+  :stop (do
+          (u/log ::leader-election-stopping)
+          (leader/stop leader)))
+
 (defstate api
   :start (do
            (u/log ::api-starting)
@@ -37,4 +47,7 @@
           (http/server-stop! api)))
 
 (defn -main [& _args]
-  (mount/start))
+  (mount/start)
+  (if (.await leader 30 TimeUnit/SECONDS)
+    (u/log ::node-is-leader)
+    (u/log ::node-is-worker)))
