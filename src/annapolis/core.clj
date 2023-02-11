@@ -8,14 +8,15 @@
   (:gen-class)
   (:import (java.util.concurrent TimeUnit)))
 
-(defn ping-handler [_req]
+(defn ping [_req]
+  (u/log ::ping)
   {:status 200 :body "OK"})
 
-(def app
+(def handler
   (ring/ring-handler
     (ring/router
       ["/api"
-       ["/ping" {:get ping-handler}]])))
+       ["/ping" {:get ping}]])))
 
 (defstate logger
   :start (u/start-publisher! {:type :console-json})
@@ -40,8 +41,8 @@
 (defstate api
   :start (do
            (u/log ::api-starting)
-           (http/run-server app {:port 8080
-                                 :legacy-return-value? false}))
+           (http/run-server handler {:port 8080
+                                     :legacy-return-value? false}))
   :stop (do
           (u/log ::api-stopping)
           (http/server-stop! api)))
