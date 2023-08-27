@@ -3,8 +3,8 @@
            (org.apache.curator.retry ExponentialBackoffRetry)
            (org.apache.curator.utils CloseableUtils)))
 
-(defn ^CuratorFramework framework
-  []
+(defn framework
+  ^CuratorFramework []
   (let [zk-host (System/getenv "ZK_HOST")
         zk-port (System/getenv "ZK_PORT")
         retries-sleep-ms 1000
@@ -14,11 +14,12 @@
         (.retryPolicy (ExponentialBackoffRetry. retries-sleep-ms retries-max))
         (.build))))
 
-(defn ^CuratorFramework start
-  [^CuratorFramework framework]
+(defn start
+  ^CuratorFramework [^CuratorFramework framework]
   (.start framework)
   framework)
 
 (defn stop
   [^CuratorFramework framework]
   (CloseableUtils/closeQuietly framework))
+
